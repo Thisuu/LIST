@@ -1,0 +1,68 @@
+conky.config = {
+-- Linea COIN widget
+
+-- Conky settings #
+	background = false,
+	update_interval = 200,
+	double_buffer = false,
+	no_buffers = true,
+
+-- Window specifications #
+	own_window = true,
+	own_window_transparent = true,
+	own_window_class = 'desktop',
+	own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+	own_window_argb_visual = true,
+	own_window_argb_value = 255,
+
+-- Alignment #
+	alignment = 'middle_right',
+	gap_x = 360,
+	gap_y = -120,
+
+-- Graphics settings #
+	draw_shades = true,  -- Enable text shadow
+    	default_shade_color = '#c9c9c9',  -- Shadow color (black)
+    	shade_offset_x = 2,  -- Shadow horizontal offset
+    	shade_offset_y = 2,
+	draw_outline = false,
+	draw_borders = false,
+	draw_graph_borders = false,
+
+-- Text settings #
+	use_xft = true,
+	font = 'Outfit:size=12',
+
+	override_utf8_locale = false,
+
+-- Color scheme #
+	default_color = '#BBBBBB',
+
+	color1 = '#006E09',
+	color2 = '#9933CC',
+	color3 = '#669900',
+	color4 = '#FF4800',
+	color5 = '#CC0000',
+	color6 = '#AAAAAA',
+	color7 = '#DDDDDD',
+};
+-- twitter_followers, telegram_channel_user_count, high_24h, low_24h, price_change_percentage_24h #
+conky.text = [[
+
+${execi 300  curl -X 'GET' 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin%2Cethereum%2Ccroak_on_linea%2C&vs_currencies=usd' -H 'accept: application/json' -o ~/.conky/coin/json/prices.json}\
+\
+${execi 300  curl -X 'GET' 'https://api.coingecko.com/api/v3/coins/croak_on_linea/contract/0xacb54d07ca167934f57f829bee2cc665e1a5ebef' -H 'accept: application/json' -o ~/.conky/coin/json/croak.json}\
+
+         ${color3}Croak price is  ${image ~/.conky/coin/img/logo.svg -p 110,220 -s 50x50}${voffset 0}\
+${color #329239}${font Outfit:size=11:bold}${alignc}${execi 0 echo "scale=6; $(cat ~/.conky/coin/json/prices.json | jq -r .croak_on_linea.usd)/1" | bc}\
+
+       ${font Outfit:size=12}${color3}at a  ${font Outfit:size=11:bold}${color 329239}${execi 0 echo "scale=2; $(cat ~/.conky/coin/json/croak.json | jq -r '.market_data.fully_diluted_valuation.usd | tonumber / 1e6')/1" | bc}M${color3}${font Outfit:size=12}  Market Cap\
+
+ and  ${color #329239}${font Outfit:size=11:bold}${execi 0 echo "scale=2; $(cat ~/.conky/coin/json/croak.json | jq -r .market_data.price_change_percentage_24h)/1" | bc}% ${color3}${font Outfit:size=12} change is last 24 hours\
+
+
+${color2}X followers:${font Outfit:size=12}${alignc}${execi 0 echo "scale=0; $(cat ~/.conky/coin/json/croak.json | jq -r .community_data.twitter_followers)/1" | bc}\
+
+On Telegram:${font Outfit:size=12}${alignc}${execi 0 echo "scale=0; $(cat ~/.conky/coin/json/croak.json | jq -r .community_data.telegram_channel_user_count)/1" | bc}\
+
+]];

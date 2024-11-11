@@ -1,0 +1,47 @@
+conky.config = {
+-- Linea gas checker widget
+
+-- Conky settings #
+	background = false,
+	update_interval = 200,
+	double_buffer = false,
+	no_buffers = true,
+
+-- Window specifications #
+	own_window = true,
+	own_window_transparent = true,
+	own_window_class = 'desktop',
+	own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+	own_window_argb_visual = true,
+	own_window_argb_value = 255,
+
+-- Alignment #
+	alignment = 'top_left',
+	gap_x = 150,
+	gap_y = 110,
+
+-- Graphics settings #
+	draw_shades = true,  -- Enable text shadow
+    	default_shade_color = '#c9c9c9',  -- Shadow color (black)
+    	shade_offset_x = 2,  -- Shadow horizontal offset
+    	shade_offset_y = 2,
+	draw_outline = false,
+	draw_borders = false,
+	draw_graph_borders = false,
+
+-- Text settings #
+	use_xft = true,
+	font = 'Outfit:size=12',
+
+	override_utf8_locale = false,
+
+-- Color scheme #
+	default_color = '#000000',
+
+	color1 = '#363636',
+};
+
+conky.text = [[
+
+${font Outfit:size=10}${color ff6682}Linea gas is now at 0.14 Gwei
+]];

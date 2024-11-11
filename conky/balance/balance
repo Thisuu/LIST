@@ -1,0 +1,51 @@
+conky.config = {
+-- Linea balance widget
+
+-- Conky settings #
+	background = false,
+	update_interval = 200,
+	double_buffer = false,
+	no_buffers = true,
+
+-- Window specifications #
+	own_window = true,
+	own_window_transparent = true,
+	own_window_class = 'desktop',
+	own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+	own_window_argb_visual = true,
+	own_window_argb_value = 255,
+
+-- Alignment #
+	alignment = 'bottom_middle',
+	gap_x = 350,
+	gap_y = 130,
+
+-- Graphics settings #
+	draw_shades = true,  -- Enable text shadow
+    	default_shade_color = '#c9c9c9',  -- Shadow color (black)
+    	shade_offset_x = 2,  -- Shadow horizontal offset
+    	shade_offset_y = 2,
+	draw_outline = false,
+	draw_borders = false,
+	draw_graph_borders = false,
+
+-- Text settings #
+	use_xft = true,
+	font = 'Outfit:size=12',
+
+	override_utf8_locale = false,
+
+-- Color scheme #
+	default_color = '#000000',
+
+	color1 = '#363636',
+};
+
+conky.text = [[
+
+${exec ~/.conky/balance/scripts/fetch-balance.sh}# Run immediately when Conky starts
+${font Outfit:size=10}${color 2384fa}You are holding ${color 2384fa}${font Outfit:size=12}${offset 0}${execi 200 echo "scale=3; $(cat json/eth.json | jq -r '.result | tonumber / 1e18')/1" | bc} ETH \
+
+${color 2384fa}${font Outfit:size=10}${offset 0}and ${execi 200 echo $(cat json/usdc.json | jq -r '.result | tonumber / 1e18')} USDC\
+${execi 600  ~/.conky/balance/scripts/fetch-balance.sh}# Run every 10 minutes after the initial execution
+]];

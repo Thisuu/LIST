@@ -1,0 +1,66 @@
+conky.config = {
+-- Watchlist for BTC, ETH
+
+-- Conky settings #
+	background = false,
+	update_interval = 1,
+	double_buffer = true,
+	no_buffers = true,
+
+-- Window specifications #
+	own_window = true,
+	own_window_transparent = true,
+	own_window_class = 'desktop',
+	own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+	own_window_argb_visual = true,
+	own_window_argb_value = 255,
+
+	minimum_width = 50,
+	maximum_width = 600,
+
+-- Alignment #
+	alignment = 'bottom_middle',
+	gap_x = -650,
+	gap_y = -10,
+
+	border_inner_margin = 15,
+	border_outer_margin = 0,
+
+-- Graphics settings #
+	draw_shades = false,
+	default_shade_color = red,
+	draw_outline = false,
+	draw_borders = false,
+	draw_graph_borders = false,
+
+-- Text settings #
+	use_xft = true,
+	xftalpha = 0,
+	font = 'Forque:size=10',
+
+	override_utf8_locale = false,
+	imlib_cache_size = 4000,
+
+-- Color scheme #
+	default_color = '#BBBBBB',
+
+	color1 = '#006E09',
+	color2 = '#9933CC',
+	color3 = '#669900',
+	color4 = '#FF4800',
+	color5 = '#CC0000',
+	color6 = '#AAAAAA',
+	color7 = '#DDDDDD',
+};
+
+conky.text = [[
+
+${execi 60  curl -X 'GET' 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin%2Cethereum%2Ccroak_on_linea%2C&vs_currencies=usd' -H 'accept: application/json' -o ~/.conky/Crypto/prices.json}\
+\
+${image ~/.conky/Crypto2/img/btc-white.png -p 40,75 -s 40x40}${color red}${voffset 120}\
+${font Outfit:size=12}${color 8a4ae1}${offset 38}${execi 0 echo "scale=0; $(cat ~/.conky/Crypto/prices.json | jq -r .bitcoin.usd)/1" | bc}\
+\
+${image ~/.conky/Crypto2/img/eth-white.png -p 118,75 -s 40x40}${voffset 0}\
+${font Outfit:size=12}${offset 40}${execi 0 echo "scale=0; $(cat ~/.conky/Crypto/prices.json | jq -r .ethereum.usd)/1" | bc}\
+\
+]];

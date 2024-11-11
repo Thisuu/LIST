@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=linea-boot
+Description=A Linea themed boot animation, by Thisu
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/linea-boot
+ScriptFile=/usr/share/plymouth/themes/linea-boot/linea-boot.script
